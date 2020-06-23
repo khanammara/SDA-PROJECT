@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace TMS
+{
+    public partial class Login : MetroFramework.Forms.MetroForm
+    {
+        
+        public static string user = null, pass = null, option = null;
+        public Login()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void metroLabel3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroTile1_Click(object sender, EventArgs e)
+        {
+            user = metroTextBox1.Text;
+            pass = metroTextBox2.Text;
+            option = metroComboBox1.Text;
+
+            TMSQuerry qp = new TMSQuerry();
+            qp.LoginCheck(user, pass, option);
+            metroTextBox1.Text = "";
+            metroTextBox2.Text = "";
+            metroComboBox1.Text = "";
+        }
+
+        private void metroTextBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Main form = new Main();
+            this.Hide();
+            form.FormClosed += new FormClosedEventHandler(delegate { Close(); });
+            form.Show();
+        }
+    }
+}
