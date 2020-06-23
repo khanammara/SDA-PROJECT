@@ -1,0 +1,163 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace TMS
+{
+    public partial class Transportation : MetroFramework.Forms.MetroForm
+    {
+        public Transportation()
+        {
+            InitializeComponent();
+        }
+
+        private void Transportation_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroTile2_Click(object sender, EventArgs e)
+        {
+           TransportCardDetail form = new TransportCardDetail();
+            this.Hide();
+            form.FormClosed += new FormClosedEventHandler(delegate { Close(); });
+            form.Show();
+        }
+
+        private void metroTile3_Click(object sender, EventArgs e)
+        {
+            NewTC form = new NewTC();
+            this.Hide();
+            form.FormClosed += new FormClosedEventHandler(delegate { Close(); });
+            form.Show();
+        }
+
+        private void metroTile1_Click(object sender, EventArgs e)
+        {
+            ManagerDashboard form = new ManagerDashboard();
+            this.Hide();
+            form.FormClosed += new FormClosedEventHandler(delegate { Close(); });
+            form.Show();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            ManagerDashboard form = new ManagerDashboard();
+            this.Hide();
+            form.FormClosed += new FormClosedEventHandler(delegate { Close(); });
+            form.Show();
+        }
+    }
+}
+
+//TRANSPORT CARD DETAIL
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace TMS
+{
+    public partial class TransportCardDetail : MetroFramework.Forms.MetroForm
+    {
+        public SqlCommand cm;
+        public SqlConnection conn;
+        public SqlDataAdapter da;
+        public SqlDataReader dr;
+        public string constring = "Data Source=DESKTOP-3PLMV60;Initial Catalog=TMS;Integrated Security=True";
+        public static string customer = null, number = null, age = null, address = null, card = null;
+        //Display Data in DataGridView  
+        private void DisplayData()
+        {
+            conn = new SqlConnection(constring);
+            conn.Open();
+            DataTable dt = new DataTable();
+            da = new SqlDataAdapter("select CustomerID, TransportCardNo, CustomerName, ContactNumber, Age, C_Address  from [C_Transport]", conn);
+            da.Fill(dt);
+            metroGrid1.DataSource = dt;
+            conn.Close();
+        }
+
+
+
+        public TransportCardDetail()
+        {
+            InitializeComponent();
+        }
+
+        private void metroGrid1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void metroGrid1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+          
+        }
+
+        private void metroTile5_Click(object sender, EventArgs e)
+        {
+            Transportation form = new Transportation();
+            this.Hide();
+            form.FormClosed += new FormClosedEventHandler(delegate { Close(); });
+            form.Show();
+        }
+
+        private void TransportCardDetail_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroTile3_Click(object sender, EventArgs e)
+        {
+            conn = new SqlConnection(constring);
+            DisplayData();
+            conn.Close();
+        }
+
+        private void metroTile2_Click(object sender, EventArgs e)
+        {
+            NewTC form = new NewTC();
+            this.Hide();
+            form.FormClosed += new FormClosedEventHandler(delegate { Close(); });
+            form.Show();
+        }
+       
+        private void metroTile4_Click(object sender, EventArgs e)
+        {
+            UpdateTC form = new UpdateTC();
+            this.Hide();
+            form.FormClosed += new FormClosedEventHandler(delegate { Close(); });
+            form.Show();
+            //string customer = metroGrid1.SelectedRows[0].Cells[1].Value.ToString();
+            //metroGrid1.Rows[Convert.ToInt32(e.ToString())].Cells[0].Value.ToString();
+            //TMSQuerry t = new TMSQuerry();
+            //t.UpdateTransportCard(customer, number, age, address, card);
+        }
+
+        private void metroTile1_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(metroTextBox1.Text))
+            {
+                (metroGrid1.DataSource as DataTable).DefaultView.RowFilter = string.Empty;
+            }
+            else
+            {
+                (metroGrid1.DataSource as DataTable).DefaultView.RowFilter = string.Format("CustomerName ='{0}'", metroTextBox1.Text);
+            }
+        }
+    }
+}
+
